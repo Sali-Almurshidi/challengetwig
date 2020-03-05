@@ -18,11 +18,6 @@ class Capitalize implements transform
      */
     private $id;
 
-/*    public function __construct(transform $changWord)
-    {
-        $this->changWord = $changWord;
-    }*/
-
     public function getId(): ?int
     {
         return $this->id;

@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Monolog\Handler\BrowserConsoleHandler;
+use Monolog\Handler\BrowserConsoleHandler as BrowserConsoleHandlerAlias;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -26,19 +26,19 @@ class LoggerInfo
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $logger;
 
-    public function getId(): ?int
+    public function __construct(LoggerInterface $logger = null)
     {
-        return $this->id;
+        $this->logger = $logger;
     }
 
-    public function index(LoggerInterface $logger)
-    {
-        $logger->pushHandler(new BrowserConsoleHandler(Logger::INFO));
-        $logger->info('info after');
-        echo 'here';
+    public function getLogger(string $input){
+
+        $logger = new Logger("info");
+        $logger->pushHandler(new StreamHandler(__DIR__ . '/logs/info.log', Logger::INFO));
+        $logger->pushHandler(new BrowserConsoleHandlerAlias());
+        $logger->info($input);
 
     }
-
 }
